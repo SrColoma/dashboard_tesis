@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>978935243928-vss43v5t0olv10g5to1j37aau8v85q2s.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.978935243928-vss43v5t0olv10g5to1j37aau8v85q2s</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDNa24S0SgxN3f8Xej2oJ-pdc_nXsmaGHs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>978935243928</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.dashboardTesis.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>automatizacion-ug</string>
+	<key>STORAGE_BUCKET</key>
+	<string>automatizacion-ug.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:978935243928:ios:f9874603661ae8d03f1ced</string>
+	<key>DATABASE_URL</key>
+	<string>https://automatizacion-ug-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
