@@ -20,18 +20,22 @@ class Home extends StatelessWidget {
             children: [
               Expanded(
                 flex: 2,
-                child: Luces()
+                child: Luces(prendidos: 1,area: "Area 1",)
               ),
-
-
               Expanded(
                 flex: 2,
-                child: Panel(
-                  child: Center(
-                    child: Text('Gay el que lo lea'),
-                  ),
-                )
+                child: Luces(prendidos: 0,area: "Area 2",)
               ),
+
+
+              // Expanded(
+              //   flex: 2,
+              //   child: Panel(
+              //     child: Center(
+              //       child: Text('Gay el que lo lea'),
+              //     ),
+              //   )
+              // ),
 
 
               Expanded(

@@ -10,24 +10,24 @@ class NumeroDashboard extends StatefulWidget {
 
 class _NumeroDashboardState extends State<NumeroDashboard> {
   late DatabaseReference firebaseNumero;
-  int numero = 0;
+  double numero = 0;
 
   @override
   void initState() {
-    // firebaseNumero = FirebaseDatabase.instance.ref('dashboard/numero');
+    firebaseNumero = FirebaseDatabase.instance.ref('dashboard/Ahorro');
 
-    // firebaseNumero.onValue.listen((DatabaseEvent event) {
-    //   final data = event.snapshot.value;
-    //   if (data != null) {
-    //     setState(() {
-    //       numero = data as int;
-    //     });
-    //   }
-    // });
-
-    setState(() {
-      numero = 75;
+    firebaseNumero.onValue.listen((DatabaseEvent event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>;
+      if (data != null) {
+        setState(() {
+          numero = data["valor"].toDouble() as double;
+        });
+      }
     });
+
+    // setState(() {
+    //   numero = 75;
+    // });
 
     super.initState();
   }
@@ -40,6 +40,10 @@ class _NumeroDashboardState extends State<NumeroDashboard> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(
+            'Ahorro',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           Expanded(
             child: SfCircularChart(
               annotations: <CircularChartAnnotation>[

@@ -7,8 +7,14 @@ import 'package:flutter/material.dart';
 
 
 class Luces extends StatefulWidget {
+  int prendidos = 0;
+  String area = '';
   // ignore: prefer_const_constructors_in_immutables
-  Luces({Key? key}) : super(key: key);
+  Luces({
+    Key? key,
+    required this.prendidos,
+    required this.area,
+  }) : super(key: key);
 
   @override
   LucesState createState() => LucesState();
@@ -36,55 +42,70 @@ class LucesState extends State<Luces> {
   @override
   Widget build(BuildContext context) {
     return Panel(
-      child: Center(
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          
-          children: [
-            ...luzDataList.map((luzData) {
-              double progress = luzData.luminosidad / 100.0;
-              return Padding(
-                padding: const EdgeInsets.all(15),
-                child: SizedBox(
-                  width: 190, // Tamaño fijo de 200
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: luzData.estado == 1 ? Colors.green : Colors.grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(Icons.lightbulb, color: luzData.estado == 1 ? Colors.yellow : Colors.white,),
-                              Text('LED ${luzData.id}', style: TextStyle(color: Colors.white, fontSize: 16)),
-                              SizedBox(width: 30),
-                              Text('Contador:'),
-                              Text('${luzData.contador}', style: TextStyle(color: Colors.white,fontSize: 20)),
-                            ],
+      child: Column(
+        children: [
+          Text(widget.area, style: TextStyle(fontSize: 20), textAlign: TextAlign.start,),
+          Center(
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              
+              children: [
+                ...luzDataList.map((luzData) {
+                  // widget.prendidos = luzData.estado == 1 ? widget.prendidos + 1 : widget.prendidos;
+                  if (luzData.estado == widget.prendidos) {
+                    double progress = luzData.luminosidad / 100.0;
+                    return Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: SizedBox(
+                        width: 190, // Tamaño fijo de 200
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: luzData.estado == 1 ? Colors.green : Colors.grey,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          SizedBox(height: 10),
-                          LinearProgressIndicator(
-                            value: progress,
-                            backgroundColor: Colors.white,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(Icons.lightbulb, color: luzData.estado == 1 ? Colors.yellow : Colors.white,),
+                                    Text('LED ${luzData.id}', style: TextStyle(color: Colors.white, fontSize: 16)),
+                                    SizedBox(width: 30),
+                                    Text('Contador:'),
+                                    Text('${luzData.contador}', style: TextStyle(color: Colors.white,fontSize: 20)),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                LinearProgressIndicator(
+                                  value: progress,
+                                  backgroundColor: Colors.white,
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                ),
+                                SizedBox(height: 10),
+                                Text('${luzData.luminosidad}%', style: TextStyle(color: Colors.white)),
+                              ],
+                            ),
                           ),
-                          SizedBox(height: 10),
-                          Text('${luzData.luminosidad}%', style: TextStyle(color: Colors.white)),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ],
-        ),
+                    );
+                    
+                  }else{
+                    return Container();
+                  }
+
+
+
+
+                }).toList(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

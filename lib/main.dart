@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:dashboard_tesis/authPage.dart';
 import 'package:dashboard_tesis/graficos/consumo.dart';
 import 'package:dashboard_tesis/home.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -41,7 +42,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       title: 'D A S H B O A R D',
-      home: MyHomePage(),
+      home: AuthPage(),
     ),
   );
 }
@@ -56,6 +57,12 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('D A S H B O A R D'),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         // backgroundColor: Colors.blueGrey[800],
         elevation: 5,
       ),
