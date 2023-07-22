@@ -44,14 +44,23 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCSK0uz9wqngLIJ1yxCrOIQBxQCl7mpy1I',
-    appId: '1:978935243928:web:b290a9804febecac3f1ced',
-    messagingSenderId: '978935243928',
-    projectId: 'automatizacion-ug',
-    authDomain: 'automatizacion-ug.firebaseapp.com',
-    databaseURL: 'https://automatizacion-ug-default-rtdb.firebaseio.com',
-    storageBucket: 'automatizacion-ug.appspot.com',
-    measurementId: 'G-FM3MZM3GXN',
+    // apiKey: 'AIzaSyCSK0uz9wqngLIJ1yxCrOIQBxQCl7mpy1I',
+    // appId: '1:978935243928:web:b290a9804febecac3f1ced',
+    // messagingSenderId: '978935243928',
+    // projectId: 'automatizacion-ug',
+    // authDomain: 'automatizacion-ug.firebaseapp.com',
+    // databaseURL: 'https://automatizacion-ug-default-rtdb.firebaseio.com',
+    // storageBucket: 'automatizacion-ug.appspot.com',
+    // measurementId: 'G-FM3MZM3GXN',
+    
+    apiKey: "AIzaSyCSK0uz9wqngLIJ1yxCrOIQBxQCl7mpy1I",
+    authDomain: "automatizacion-ug.firebaseapp.com",
+    databaseURL: "https://automatizacion-ug-default-rtdb.firebaseio.com",
+    projectId: "automatizacion-ug",
+    storageBucket: "automatizacion-ug.appspot.com",
+    messagingSenderId: "978935243928",
+    appId: "1:978935243928:web:eb07977329c4a9a83f1ced",
+    measurementId: "G-05XSHCHB52"
   );
 
   static const FirebaseOptions android = FirebaseOptions(

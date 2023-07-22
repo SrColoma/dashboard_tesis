@@ -49,7 +49,17 @@ class Home extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 1,
-                      child: NumeroDashboard()
+                      child: Panel(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          //
+                          children: [
+                            // Text("Creado por Julio y anthony",style: TextStyle(fontSize: 20),),
+                            Image.asset('logo.png'),
+                          ],
+                        ),
+                      )
                     ),
 
                   ],

@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class NumeroDashboard extends StatefulWidget {
+  double numDias = 0;
+  NumeroDashboard({
+    Key? key,
+    required this.numDias,
+  }) : super(key: key);
   @override
   _NumeroDashboardState createState() => _NumeroDashboardState();
 }
@@ -14,15 +19,18 @@ class _NumeroDashboardState extends State<NumeroDashboard> {
 
   @override
   void initState() {
-    firebaseNumero = FirebaseDatabase.instance.ref('dashboard/Ahorro');
+    // firebaseNumero = FirebaseDatabase.instance.ref('dashboard/Ahorro');
 
-    firebaseNumero.onValue.listen((DatabaseEvent event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>;
-      if (data != null) {
-        setState(() {
-          numero = data["valor"].toDouble() as double;
-        });
-      }
+    // firebaseNumero.onValue.listen((DatabaseEvent event) {
+    //   final data = event.snapshot.value as Map<dynamic, dynamic>;
+    //   if (data != null) {
+    //     setState(() {
+    //       numero = data["valor"].toDouble() as double;
+    //     });
+    //   }
+    // });
+    setState(() {
+      numero = widget.numDias.toDouble() * 0.19;
     });
 
     // setState(() {
@@ -35,6 +43,7 @@ class _NumeroDashboardState extends State<NumeroDashboard> {
   @override
   Widget build(BuildContext context) {
     double porcentaje = numero / 255.0; // Calcula el porcentaje actual
+    // double porcentaje = numero / 255.0; // Calcula el porcentaje actual
 
     return Panel(
       child: Column(

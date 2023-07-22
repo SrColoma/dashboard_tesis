@@ -39,14 +39,14 @@ class AuthPage extends StatelessWidget {
                 },
                 child: const Text('Log In'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const MyHomePage()),
-                  );
-                },
-                child: const Text('bypass'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.of(context).push(
+              //       MaterialPageRoute(builder: (context) => const MyHomePage()),
+              //     );
+              //   },
+              //   child: const Text('bypass'),
+              // ),
             ],
           ),
         ),

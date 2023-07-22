@@ -26,9 +26,9 @@ class TimeSeriesChart extends StatelessWidget {
               majorTickLines: MajorTickLines(width: 0),
             ),
             primaryYAxis: NumericAxis(
-              minimum: 0,
-              maximum: 200,
-              interval: 50,
+              // minimum: 0,
+              // maximum: 200,
+              // interval: 50,
               labelStyle: TextStyle(color: Colors.white),
               majorGridLines: MajorGridLines(width: 1),
               axisLine: AxisLine(color: Colors.transparent),

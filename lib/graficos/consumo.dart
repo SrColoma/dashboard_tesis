@@ -1,4 +1,5 @@
 import 'package:dashboard_tesis/components/Panel.dart';
+import 'package:dashboard_tesis/graficos/NumeroDashboard.dart';
 import 'package:dashboard_tesis/graficos/TimeSeriesChart.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -19,13 +20,17 @@ class _ConsumoState extends State<Consumo> {
   late DatabaseReference firebaseConsumo;
   DateTime? startDate;
   DateTime? endDate;
+  double numero = 0;
+  double porcentaje = 0;
+
+  List<SumDataPoint> sumdata = [];
 
   @override
   void initState() {
     endDate = DateTime.now();
     firebaseConsumo = FirebaseDatabase.instance.ref('dashboard/consumo');
     _tooltip = TooltipBehavior(enable: true);
-
+    
     _listenToDataChanges();
 
     super.initState();
@@ -47,7 +52,17 @@ class _ConsumoState extends State<Consumo> {
       }).toList();
 
       setState(() {
+        startDate = newData.first.date;
+        endDate = newData.last.date;
         data = newData;
+        numero = endDate!.difference(startDate!).inDays.toDouble() * 0.19;
+        porcentaje = numero / 255.0;
+        // numero = widget.numDias.toDouble() * 0.19;
+        sumdata = [
+          SumDataPoint('Costo', data.fold(0.0, (p, e) => p + e.dinero),Colors.blue,"\$"), // Ejemplo de costo Kw/h
+          SumDataPoint('Kw/h', data.fold(0.0, (p, e) => p + e.kwh),Colors.amber,"kW/h"), // Ejemplo de valor Kw/h
+          SumDataPoint('O3', data.fold(0.0, (p, e) => p + e.ozono),Colors.green,"O3"), // Ejemplo de valor O3
+        ];
       });
     });
   }
@@ -79,6 +94,11 @@ class _ConsumoState extends State<Consumo> {
 
       setState(() {
         data = newData;
+        sumdata = [
+          SumDataPoint('Costo', data.fold(0.0, (p, e) => p + e.dinero),Colors.blue,"\$"), // Ejemplo de costo Kw/h
+          SumDataPoint('Kw/h', data.fold(0.0, (p, e) => p + e.kwh),Colors.amber,"kW/h"), // Ejemplo de valor Kw/h
+          SumDataPoint('O3', data.fold(0.0, (p, e) => p + e.ozono),Colors.green,"O3"), // Ejemplo de valor O3
+        ];
       });
     } else {
       setState(() {
@@ -89,38 +109,46 @@ class _ConsumoState extends State<Consumo> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Row(
       children: [
         Panel(
-          child: Padding(
-            padding: const EdgeInsets.all(80.0),
-            child: Container(
-              child: Center(
+          child: Container(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      'Consumo Total',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                      ),
-                    ),
-                    Text(
-                      '\$ ${data.fold(0.0, (p, e) => p + e.dinero).toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    ),
-                    Text(
-                      'Kw/h ${data.fold(0.0, (p, e) => p + e.kwh).toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                      ),
-                    ),
+                    // Text(
+                    //   'Consumo Total',
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontSize: 30,
+                    //   ),
+                    // ),
+                    // Text(
+                    //   '\$ ${data.fold(0.0, (p, e) => p + e.dinero).toStringAsFixed(2)}',
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontSize: 30,
+                    //   ),
+                    // ),
+                    // Text(
+                    //   ' ${data.fold(0.0, (p, e) => p + e.kwh).toStringAsFixed(2)}  Kw/h',
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontSize: 30,
+                    //   ),
+                    // ),
+                    // Text(
+                    //   '${data.fold(0.0, (p, e) => p + e.ozono).toStringAsFixed(2)}  O3 ',
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontSize: 30,
+                    //   ),
+                    // ),
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Wrap(
@@ -147,6 +175,25 @@ class _ConsumoState extends State<Consumo> {
                         ],
                       ),
                     ),
+
+                    SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      primaryYAxis: NumericAxis(numberFormat: NumberFormat.decimalPattern()), // Formato de números con separadores de miles
+                      series: <ChartSeries>[
+                        ColumnSeries<SumDataPoint, String>(
+                          dataSource: sumdata,
+                          xValueMapper: (SumDataPoint sumdata, _) => sumdata.category,
+                          yValueMapper: (SumDataPoint sumdata, _) => sumdata.value,
+                          color: Colors.blue, // Color por defecto para todas las barras
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                          dataLabelMapper: (SumDataPoint data, _) => '${data.simbolo} ${data.value.toStringAsFixed(2)}', // Agregar signo de dolar
+                          pointColorMapper: (SumDataPoint sumdata, _) => sumdata.color,
+                        ),
+                      ],
+                    ),
+
+
+
                     SizedBox(height: 20),
                     DateRangePicker(context),
                     SizedBox(height: 5),
@@ -156,7 +203,7 @@ class _ConsumoState extends State<Consumo> {
                           : 'Desde: el principio',
                       style: TextStyle(color: Colors.white),
                     ),
-
+              
                   ],
                 ),
               ),
@@ -167,9 +214,60 @@ class _ConsumoState extends State<Consumo> {
         TimeSeriesChart(
           dataPoints: data,
         ),
+
+        // NumeroDashboard(
+        //   numDias: endDate!.difference(startDate!).inDays.toDouble(),
+        // ),
+
+        Panel(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Ahorro',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: SfCircularChart(
+                  annotations: <CircularChartAnnotation>[
+                    CircularChartAnnotation(
+                      widget: Container(
+                        child: Text(
+                          numero.toString(),
+                          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                  series: <CircularSeries>[
+                    RadialBarSeries<_ChartData, String>(
+                      dataSource: <_ChartData>[
+                        _ChartData('Numero', porcentaje)
+                      ],
+                      xValueMapper: (_ChartData data, _) => data.x,
+                      yValueMapper: (_ChartData data, _) => data.y * 255.0,
+                      maximumValue: 255.0,
+                      innerRadius: '80%', // Ajusta el radio interno para que sea un arco
+                      // startAngle: 270, // Ajusta el ángulo de inicio a 270 grados (parte inferior del círculo)
+                      // endAngle: 270 + (porcentaje * 360), // Calcula el ángulo final basado en el porcentaje
+                      trackColor: Colors.greenAccent,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+
+
+
+
+
       ],
     );
   }
+
+  
 
   Container DateRangePicker(BuildContext context) {
     return Container(
@@ -238,6 +336,10 @@ class _ConsumoState extends State<Consumo> {
                                 setState(() {
                                   startDate = pickedStartDate;
                                   endDate = pickedEndDate;
+                                  numero = endDate!.difference(startDate!).inDays.toDouble() * 0.19;
+                                  porcentaje = numero / 255.0;
+
+
                                   _fetchDataInRange();
                                 });
                               } else {
@@ -274,4 +376,21 @@ class _ConsumoState extends State<Consumo> {
         ),
       );
   }
+}
+
+
+class _ChartData {
+  _ChartData(this.x, this.y);
+
+  final String x;
+  final double y;
+}
+
+class SumDataPoint {
+  final String category;
+  final double value;
+  final Color color;
+  final String simbolo;
+
+  SumDataPoint(this.category, this.value, this.color, this.simbolo);
 }
